@@ -1,7 +1,7 @@
 import { Db, MongoClient } from 'mongodb';
 
 const connStr = 'mongodb://localhost:27017';
-const dbName = "inversify-express-example";
+const dbName = "Moonshot";
 
 export class MongoDBConnection {
   private static isConnected: boolean = false;
