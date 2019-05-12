@@ -1,6 +1,7 @@
 const TYPES = {
     MongoDBClient: Symbol.for('MongoDBClient'),
-    UserService: Symbol.for('UserService')
+    MessageService: Symbol.for('MessageService'),
+    Logger: Symbol.for('Logger')
 };
 
 export default TYPES;
