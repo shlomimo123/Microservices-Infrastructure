@@ -8,6 +8,8 @@ import TYPES from './constant/types';
 import { MessageService } from './service/message';
 import { MongoDBClient } from './utils/mongodb/client';
 import { Logger } from './utils/Logger';
+import { LoggerMiddleware } from './middlewares/LoggerMiddleware';
+
 import './controller/message';
 
 // load everything needed to the Container
@@ -21,6 +23,8 @@ if (process.env.NODE_ENV === 'development') {
 container.bind<MongoDBClient>(TYPES.MongoDBClient).to(MongoDBClient);
 container.bind<MessageService>(TYPES.MessageService).to(MessageService);
 container.bind<Logger>(TYPES.Logger).to(Logger);
+container.bind<LoggerMiddleware>(TYPES.LoggerMiddleware).to(LoggerMiddleware)
+
 
 // start the server
 let server = new InversifyExpressServer(container);

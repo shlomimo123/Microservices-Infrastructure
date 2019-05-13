@@ -13,15 +13,15 @@ export class MessageService {
     this.mongoClient = mongoClient;
   }
 
-  public getMessages(): Promise<Message[]> {
+  public getMessages(filter: Object, limit: number, skip: number): Promise<Message[]> {
     return new Promise<Message[]>((resolve, reject) => {
-      this.mongoClient.find('Message', {}, (error, data: Message[]) => {
+      this.mongoClient.find('Message', filter, limit, skip, (error, data: Message[]) => {
         resolve(data);
       });
     });
   }
 
-  public getMessage(id: string): Promise<Message> {
+  public getMessage(id: string, limit: number, skip: number): Promise<Message> {
     return new Promise<Message>((resolve, reject) => {
       this.mongoClient.findOneById('Message', id, (error, data: Message) => {
         resolve(data);

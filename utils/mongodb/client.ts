@@ -13,13 +13,13 @@ export class MongoDBClient {
     });
   }
 
-  public find(collection: string, filter: Object, result: (error, data) => void): void {
-    this.db.collection(collection).find(filter).toArray((error, find) => {
+  public find(collection: string, filter: Object, limit: number, skip: number, result: (error, data) => void): void {
+    this.db.collection(collection).find(filter).skip(skip).limit(limit).toArray((error, find) => {
       return result(error, find);
     });
   }
 
-  public findOneById(collection: string, objectId: string, result: (error, data) => void): void {
+  public findOneById(collection: string, objectId: string,result: (error, data) => void): void {
     this.db.collection(collection).find({ _id: new ObjectID(objectId) }).limit(1).toArray((error, find) => {
       return result(error, find[0]);
     });
