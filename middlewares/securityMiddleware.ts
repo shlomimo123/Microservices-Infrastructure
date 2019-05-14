@@ -34,7 +34,7 @@ export class SecurityMiddleware extends BaseMiddleware {
 
         return new Promise<boolean>((resolve, reject) => {
             let redis = require('redis');
-            let client = redis.createClient();
+            let client = redis.createClient('6379', 'redis');
 
             client.select(1, function (err, res) {
                 client.get(cameFromDomain, function (error, result) {
@@ -51,7 +51,7 @@ export class SecurityMiddleware extends BaseMiddleware {
 
         return new Promise<boolean>((resolve, reject) => {
             let redis = require('redis');
-            let client = redis.createClient();
+            let client = redis.createClient('6379', 'redis');
 
             client.select(2, function (err, res) {
                 client.get(ip, function (error, result) {
