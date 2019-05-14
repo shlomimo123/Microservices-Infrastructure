@@ -1,7 +1,7 @@
 import { Db, MongoClient } from 'mongodb';
 
-const connStr = 'mongodb://localhost:27017';
-// const connStr = 'mongodb://mongo:27017';
+// const connStr = 'mongodb://localhost:27017';
+const connStr = 'mongodb://mongo:27017';
 const dbName = "Moonshot";
 
 export class MongoDBConnection {
