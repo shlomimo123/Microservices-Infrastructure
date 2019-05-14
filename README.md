@@ -25,8 +25,8 @@ We have to http methods
 
 HTTP                                                    | How to use example
 ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------
-`POST`                                                  | [localhost:3000/Message] body:[{"firstName":"vvvvvv"}] headers:[crossfw-referer:website.com]
-`GET`                                                   |[localhost:3000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0]  
+`POST`                                                  | <b>URL </b>http://localhost:3000/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
+`GET`                                                   |<b>URL </b>http://localhost:3000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
 
 
 
