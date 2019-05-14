@@ -3,7 +3,7 @@ import {
 } from 'inversify-express-utils';
 import { inject,injectable } from 'inversify';
 import TYPES from '../constant/types';
-import { Logger } from '../utils/Logger';
+import { Logger } from '../utils/logger';
 
 @injectable()
 export class BaseController {

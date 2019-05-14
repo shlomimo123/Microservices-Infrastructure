@@ -2,7 +2,7 @@ import { inject, injectable } from "inversify";
 import { BaseMiddleware } from "inversify-express-utils";
 import * as express from "express";
 import TYPES from '../constant/types';
-import { Logger } from '../utils/Logger';
+import { Logger } from '../utils/logger';
 
 @injectable()
 export class LoggerMiddleware extends BaseMiddleware {
@@ -13,7 +13,7 @@ export class LoggerMiddleware extends BaseMiddleware {
         res: express.Response,
         next: express.NextFunction
     ) {
-        this._logger.log(`Anonymous => ${req.url}`,'info');
+        this._logger.log(`HIT => ${req.url}`,'info');
         next();
     }
 }

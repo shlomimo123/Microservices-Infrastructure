@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { Message } from '../models/message';
 import { MessageService } from '../service/message';
 import TYPES from '../constant/types';
-import { Logger } from '../utils/Logger';
+import { Logger } from '../utils/logger';
 import { BaseController } from './baseController'
 import { UrlManipulations } from '../utils/urlManipulations'
 import { ArrayManipulations } from '../utils/arrayManipulations'
@@ -23,7 +23,7 @@ export class MessageController extends BaseController {
     this.messageService = messageService;
   }
 
-  @httpGet('/', TYPES.LoggerMiddleware)
+  @httpGet('/', TYPES.LoggerMiddleware, TYPES.SecurityMiddleware)
   public getMessages(request: Request): Promise<Message[]> {
     try {
 
@@ -35,11 +35,13 @@ export class MessageController extends BaseController {
         if (allMessages.length === 0)
           return this.ReturnInternalError('Nothing to show');
         else
-          return new Promise<Message[]>((resolve, reject) => { 
-            allMessages = ArrayManipulations.MapObjFromArray(allMessages,'domain');
-            resolve(allMessages); });
+          return new Promise<Message[]>((resolve, reject) => {
+            allMessages = ArrayManipulations.MapObjFromArray(allMessages, 'domain');
+            resolve(allMessages);
+          });
       }).catch(allMessages => {
-        return new Promise<Message[]>((reject) => {reject(allMessages);
+        return new Promise<Message[]>((reject) => {
+          reject(allMessages);
         });
       });
     } catch (err) {
@@ -55,7 +57,7 @@ export class MessageController extends BaseController {
       let content = request.body;
       content.browser = { "Name": ua.browser, "Version": ua.version };
       content.createdAt = new Date().toISOString();
-      content.domain = "website.com"; //this is just for test. we need to take it from 'request.headers.referer'
+      content.domain = request.headers["crossfw-referer"]; //this is just for test. we need to take it from 'request.headers.referer'
       return this.messageService.newMessage(content);
     } catch (err) {
       return this.ReturnInternalError(err);
