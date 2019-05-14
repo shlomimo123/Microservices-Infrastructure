@@ -34,8 +34,10 @@ HTTP                                                    | How to use example
 this repo uses nginx as revered proxy
 
 for scale run this command:
-docker-compose scale web=3
+
+`**docker-compose scale web=3**`
 
 Now you can check that everything is still working
+
 Enjoy ;)
 
