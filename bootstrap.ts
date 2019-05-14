@@ -12,6 +12,8 @@ import { MongoDBClient } from './utils/mongodb/client';
 import { Logger } from './utils/logger';
 import './controller/message';
 
+// load enviroment configurations
+let config = require('./env.json')[process.env.NODE_ENV || 'development'];
 
 // load everything needed to the Container
 let container = new Container();
@@ -46,7 +48,7 @@ console.log('Server started on port 3000 :)');
 // Seeding initial Redis whitelist domains to redis db
 let redis = require('redis');
 // let client = redis.createClient();
-var client = redis.createClient('6379', 'redis');
+var client = redis.createClient(config.REDIS_PORT, config.REDIS_URI);
 client.on('connect', function() {console.log('Redis client connected');});
 client.on('error', function (err) {console.log('Something went wrong with Redis connection' + err);});
 console.log('Seeding initial Redis whitelist domains to redis db #1');

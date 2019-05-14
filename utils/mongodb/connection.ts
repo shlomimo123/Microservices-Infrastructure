@@ -1,7 +1,8 @@
 import { Db, MongoClient } from 'mongodb';
 
-// const connStr = 'mongodb://localhost:27017';
-const connStr = 'mongodb://mongo:27017';
+
+let config = require('../../env.json')[process.env.NODE_ENV || 'development'];
+const connStr = config.MONGO_URI;
 const dbName = "Moonshot";
 
 export class MongoDBConnection {

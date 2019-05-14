@@ -9,7 +9,7 @@
     "test:all": "npm test **/*.spec.ts",
     "build": "tsc||echo",
     "clean": "rm -rf js",
-    "prod": "tsc||echo && node bootstrap.js"
+    "prod": "tsc||echo && NODE_ENV=production node bootstrap.js"
   },
   "dependencies": {
     "body-parser": "1.18.3",

@@ -49,7 +49,7 @@ export class MessageController extends BaseController {
     }
   }
 
-  @httpPost('/', TYPES.LoggerMiddleware)
+  @httpPost('/', TYPES.LoggerMiddleware,TYPES.SecurityMiddleware)
   public newMessage(request: Request): Promise<Message> {
     try {
       this.logger.log('Adding Message to DB', 'info');

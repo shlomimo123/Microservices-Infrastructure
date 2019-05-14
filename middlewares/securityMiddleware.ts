@@ -3,6 +3,7 @@ import { BaseMiddleware } from "inversify-express-utils";
 import * as express from "express";
 import TYPES from '../constant/types';
 import { Logger } from '../utils/logger';
+let config = require('../env.json')[process.env.NODE_ENV || 'development'];
 
 @injectable()
 export class SecurityMiddleware extends BaseMiddleware {
@@ -34,9 +35,9 @@ export class SecurityMiddleware extends BaseMiddleware {
 
         return new Promise<boolean>((resolve, reject) => {
             let redis = require('redis');
-            let client = redis.createClient('6379', 'redis');
+            let client = redis.createClient(config.REDIS_PORT, config.REDIS_URI);
 
-            client.select(1, function (err, res) {
+            client.select(config.REDIS_WHITELIST_DB, function (err, res) {
                 client.get(cameFromDomain, function (error, result) {
                     if (!result || result !== "true") {
                         resolve(false);
@@ -51,12 +52,12 @@ export class SecurityMiddleware extends BaseMiddleware {
 
         return new Promise<boolean>((resolve, reject) => {
             let redis = require('redis');
-            let client = redis.createClient('6379', 'redis');
+            let client = redis.createClient(config.REDIS_PORT, config.REDIS_URI);
 
-            client.select(2, function (err, res) {
+            client.select(config.REDIS_IPRESTRICTION_DB, function (err, res) {
                 client.get(ip, function (error, result) {
                     if (!result || result !== "true") {
-                        client.set(ip, "true", 'EX', 10, redis.print);
+                        client.set(ip, "true", 'EX', config.REDIS_TTL, redis.print);
                         resolve(false);
                     }
                     resolve(true);
