@@ -26,8 +26,8 @@ We have to http methods
 
 HTTP                                                    | How to use example
 ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------
-`POST`                                                  | <b>URL </b>http://localhost:3000/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
-`GET`                                                   |<b>URL </b>http://localhost:3000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
+`POST`                                                  | <b>URL </b>http://localhost:8000/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
+`GET`                                                   |<b>URL </b>http://localhost:8000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
 
 
 ## How to scale
@@ -48,5 +48,7 @@ Now you can check that everything is still working
 5) `docker-compose up -d mongo`
 6) `docker-compose up -d redis`
 7) `ts-node bootstrap`
+
+** please notice that now there is no nginx as reversed proxy, and you server port is 3000
 
 Enjoy ;)
