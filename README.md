@@ -39,5 +39,14 @@ for scale run this command:
 
 Now you can check that everything is still working
 
-Enjoy ;)
 
+## How to run in development with ts-node
+1)`git clone https://github.com/shlomimo123/MoonshotExam.git`
+2)`npm install`
+3)`Docker-compose down`
+4)`Docker-compose build`
+5)`docker-compose up -d mongo`
+6)`docker-compose up -d redis`
+7)`ts-node bootstrap`
+
+Enjoy ;)
