@@ -16,9 +16,10 @@ Middleware                                              | Reason
 ## How to use this exanple
 
 Run the folowing commands:
-1) `docker-compose down`
-2) `docker-compose build`
-3) `docker-compose up`
+1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
+2) `docker-compose down`
+3) `docker-compose build`
+4) `docker-compose up`
 
 
 ## How to test
@@ -49,6 +50,6 @@ Now you can check that everything is still working
 6) `docker-compose up -d redis`
 7) `ts-node bootstrap`
 
-** please notice that now there is no nginx as reversed proxy, and you server port is 3000
+** please notice that now there is no nginx as reversed proxy, and your server port is 3000
 
 Enjoy ;)
