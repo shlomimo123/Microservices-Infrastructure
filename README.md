@@ -16,9 +16,9 @@ Middleware                                              | Reason
 ## How to use this exanple
 
 Run the folowing commands:
-1) docker-compose down
-2) docker-compose build
-3) docker-compose up
+1) `docker-compose down`
+2) `docker-compose build`
+3) `docker-compose up`
 
 
 ## How to test
