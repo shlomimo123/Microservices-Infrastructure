@@ -1,9 +1,7 @@
-version: "3"
+version: "2.3"
 services:
   web:
     build: .
-    ports:
-    - "3000:3000"
     depends_on:
     - mongo
   mongo:
@@ -22,3 +20,13 @@ services:
       - ../data/redis:/data
     entrypoint: redis-server --appendonly yes
     restart: always
+  nginx:
+    image: nginx:stable-alpine
+    depends_on:
+      - web
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./var/log/nginx:/var/log/nginx
+      # It needs to access Docker's API, so we mount the Unix socket
+    ports:
+    - "8000:80"

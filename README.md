@@ -20,6 +20,7 @@ Run the folowing commands:
 2) docker-compose build
 3) docker-compose up
 
+
 ## How to test
 We have to http methods
 
@@ -29,4 +30,12 @@ HTTP                                                    | How to use example
 `GET`                                                   |<b>URL </b>http://localhost:3000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
 
 
+## How to scale
+this repo uses nginx as revered proxy
+
+for scale run this command:
+docker-compose scale web=3
+
+Now you can check that everything is still working
+Enjoy ;)
 
