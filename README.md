@@ -32,13 +32,10 @@ HTTP                                                    | How to use example
 
 
 ## How to scale
-this repo uses nginx as revered proxy
+this repo uses nginx as revered proxy that use default Load Balancing algorithm (Round Rubin)
 
-for scale run this command:
+Docker-compose already configured to use 3 instances
 
-`**docker-compose scale web=3**`
-
-Now you can check that everything is still working
 
 
 ## How to run in development with ts-node
