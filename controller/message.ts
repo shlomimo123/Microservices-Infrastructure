@@ -11,6 +11,7 @@ import { BaseController } from './baseController'
 import { UrlManipulations } from '../utils/urlManipulations'
 import { ArrayManipulations } from '../utils/arrayManipulations'
 let useragent = require('express-useragent');
+let os = require('os');
 
 
 @controller('/message')
@@ -43,6 +44,17 @@ export class MessageController extends BaseController {
         return new Promise<Message[]>((reject) => {
           reject(allMessages);
         });
+      });
+    } catch (err) {
+      return this.ReturnInternalError(err);
+    }
+  }
+
+  @httpGet('/getos')
+  public getos(request: Request): Promise<string> {
+    try {
+      return new Promise<string>((resolve, reject) => {
+        resolve(os.hostname());
       });
     } catch (err) {
       return this.ReturnInternalError(err);

@@ -1,33 +1,76 @@
-version: "2.3"
+version: "3.3"
 services:
   web:
-    build: .
+    image: moonshot_web
     depends_on:
     - mongo
-    scale: 3
+    ports:
+     # Image that I created runs on port 3000.
+    - 3000
+    environment:
+      # Port used by the HAProxy to reach the service.
+      - SERVICE_PORTS=3000
+    deploy:
+    # Deploy configuration, 20 nodes will be attempted to be deployed.
+    # We can scale this up and down after as we would like.
+     replicas: 2
+     update_config:
+       parallelism: 5
+       delay: 10s
+     restart_policy:
+       condition: on-failure
+       max_attempts: 3
+       window: 120s
+    networks:
+     - mynetwork
   mongo:
-    container_name: mongo
     image: mongo
     volumes:
     - /data/db
     ports:
     - "27017:27017"
+    networks:
+      - mynetwork
   redis:
     image: redis:alpine
-    container_name: redis
     ports:
       - "6379:6379"
     volumes:
       - ../data/redis:/data
     entrypoint: redis-server --appendonly yes
     restart: always
-  nginx:
-    image: nginx:stable-alpine
+    networks:
+      - mynetwork
+  proxy:
+    image: dockercloud/haproxy
     depends_on:
       - web
+    environment:
+      # The type of load balancing strategy that will be used.
+      # - leastconn sends request to the service with the least active requests.
+      # - roundrobin rotates the requests around the services.
+      - BALANCE=leastconn
+      # Used to identify services.
+      - ADDITIONAL_SERVICES=project_dir:app
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - ./var/log/nginx:/var/log/nginx
-      # It needs to access Docker's API, so we mount the Unix socket
+      # Since our app services are running on the same port,
+      # the HAProxy will use the docker.sock to find the
+      # services that it should load balance.
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-    - "8000:80"
+      # The internal used by the HAProxy is 80,
+      # but we can expose any port that we would like externally.
+      # for example, if you are running something else on 80,
+      # you probably don't want to expose the HAProxy on 80 as well.
+      - 8000:80
+    networks:
+      - mynetwork
+    deploy:
+      # The HAProxy is assigned as the manager.
+      placement:
+        constraints: [node.role == manager]
+
+# Overlay network that the services and the HAProxy exists in.
+networks:
+  mynetwork:
+    driver: overlay
