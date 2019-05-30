@@ -13,7 +13,7 @@ Middleware                                              | Reason
 [helmet](https://github.com/helmetjs/helmet)            | Adds some protection to the application and removes things like the `X-Powered-By header` from a request
 [winston](https://www.npmjs.com/package/winston)                                               | Used for logging
 
-## How to use this exanple
+## How to use this example
 
 Run the folowing commands:
 1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
