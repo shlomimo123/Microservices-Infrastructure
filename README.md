@@ -18,18 +18,18 @@ Middleware                                              | Reason
 Run the folowing commands:
 1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
 
-There si 2 options to use and run this example, The first one is with docker-compose tool and the second is on docker swarm
+There is 2 options to use and run this example, The first one is with docker-compose tool and the second is on docker swarm
 
 for docker-compose use this commands:
-2) `docker build .`
-3) `docker-compose -f "docker-compose.yml" down`
-4) `docker-compose -f "docker-compose.yml" up -d --build`
+1) `docker build .`
+2) `docker-compose -f "docker-compose.yml" down`
+3) `docker-compose -f "docker-compose.yml" up -d --build`
 
 for docker swarm use this commands:
-2) `docker swarm init`
-3) `docker build .`
-4) `docker stack rm prod`
-5) `docker stack deploy --compose-file=docker-compose-swarm.yml prod`
+1) `docker swarm init`
+2) `docker build .`
+3) `docker stack rm prod`
+4) `docker stack deploy --compose-file=docker-compose-swarm.yml prod`
 
 
 ## How to test
@@ -44,6 +44,7 @@ HTTP                                                    | How to use example
 
 ## How to scale
 There is 2 option to scale
+
 if you are using docker-compose for running then use this command:
 `docker-compose scale web=3`
 
