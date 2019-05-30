@@ -17,9 +17,19 @@ Middleware                                              | Reason
 
 Run the folowing commands:
 1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
-2) `docker-compose down`
-3) `docker-compose build`
-4) `docker-compose up`
+
+There si 2 options to use and run this example, The first one is with docker-compose tool and the second is on docker swarm
+
+for docker-compose use this commands:
+2) `docker build .`
+3) `docker-compose -f "docker-compose.yml" down`
+4) `docker-compose -f "docker-compose.yml" up -d --build`
+
+for docker swarm use this commands:
+2) `docker swarm init`
+3) `docker build .`
+4) `docker stack rm prod`
+5) `docker stack deploy --compose-file=docker-compose-swarm.yml prod`
 
 
 ## How to test
@@ -27,15 +37,18 @@ We have to http methods
 
 HTTP                                                    | How to use example
 ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------
-`POST`                                                  | <b>URL </b>http://localhost:8000/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
-`GET`                                                   |<b>URL </b>http://localhost:8000/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
+`POST`                                                  | <b>URL </b>http://localhost:8001/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
+`GET`                                                   |<b>URL </b>http://localhost:8001/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
+`GET`                                                   |<b>URL </b>http://localhost:8001/Message/getos
 
 
 ## How to scale
-this repo uses nginx as revered proxy that use default Load Balancing algorithm (Round Rubin)
+There is 2 option to scale
+if you are using docker-compose for running then use this command:
+`docker-compose scale web=3`
 
-Docker-compose already configured to use 3 instances
-
+if you are using docker swarm then use:
+`docker service scale prod_web=3`
 
 
 ## How to run in development with ts-node
@@ -47,6 +60,6 @@ Docker-compose already configured to use 3 instances
 6) `docker-compose up -d redis`
 7) `ts-node bootstrap`
 
-** please notice that now there is no nginx as reversed proxy, and your server port is 3000
+** please notice that now there is no haproxy as reversed proxy, and your server port is 3000
 
 Enjoy ;)
