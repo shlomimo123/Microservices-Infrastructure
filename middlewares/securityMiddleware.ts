@@ -16,17 +16,23 @@ export class SecurityMiddleware extends BaseMiddleware {
     ) {
         this._logger.log(`In Security Middleware => ${req.url}`, 'info');
 
-        let isInWhitelist = this.IsInWhitelist(req.headers["crossfw-referer"].toString());
+        let isInWhitelist = this.IsInWhitelist(req.headers["crossfw-referer"] ? req.headers["crossfw-referer"].toString() : '');
         isInWhitelist.then(value => {
-            if (value === false)
-                res.sendStatus(403);
-
-            let isNeedToWait = this.NeedToWait(req.connection.remoteAddress.toString());
-            isNeedToWait.then(value => {
-                if (value === true)
-                    res.send('Need To Wait 30 seconds for next request');
-                next();
-            })
+            if (value === false) {
+                res.status(403).send('Forbiden');
+            }
+            else
+            {
+                let isNeedToWait = this.NeedToWait(req.connection.remoteAddress.toString());
+                isNeedToWait.then(value => {
+                    if (value === true) {
+                        res.status(500).send('Need To Wait 30 seconds for next request');
+                    }
+                    else {
+                        next();
+                    }
+                })
+            }
         });
 
     }

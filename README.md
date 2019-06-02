@@ -16,7 +16,7 @@ Middleware                                              | Reason
 ## How to use this example
 
 Run the folowing commands:
-1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
+1) `git clone https://github.com/shlomimo123/Microservices-Infrastructure.git`
 
 There is 2 options to use and run this example, The first one is with docker-compose tool and the second is on docker swarm
 
@@ -53,7 +53,7 @@ if you are using docker swarm then use:
 
 
 ## How to run in development with ts-node
-1) `git clone https://github.com/shlomimo123/MoonshotExam.git`
+1) `git clone https://github.com/shlomimo123/Microservices-Infrastructure.git`
 2) `npm install`
 3) `Docker-compose down`
 4) `Docker-compose build`
