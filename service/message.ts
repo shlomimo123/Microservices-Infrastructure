@@ -7,9 +7,7 @@ import TYPES from '../constant/types';
 export class MessageService {
   private mongoClient: MongoDBClient;
 
-  constructor(
-    @inject(TYPES.MongoDBClient) mongoClient: MongoDBClient
-  ) {
+  constructor(@inject(TYPES.MongoDBClient) mongoClient: MongoDBClient) {
     this.mongoClient = mongoClient;
   }
 

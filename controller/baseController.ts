@@ -14,11 +14,20 @@ export class BaseController {
         this.logger = logger;
     }
 
-    public ReturnInternalError<T>(err): Promise<T> {
+    // public ReturnInternalError<T>(err): Promise<T> {
+    //     this.logger.log(`Error: ${err}`, 'error');
+
+    //     const response = new HttpResponseMessage(500);
+    //     response.content = new StringContent(err);
+    //     return new Promise<T>((resolve, reject) => { reject(response); });
+    // }
+
+    public ReturnInternalError(err): Promise<any> {
         this.logger.log(`Error: ${err}`, 'error');
 
         const response = new HttpResponseMessage(500);
         response.content = new StringContent(err);
-        return new Promise<T>((resolve, reject) => { reject(response); });
+
+        return Promise.resolve(response);
     }
 }

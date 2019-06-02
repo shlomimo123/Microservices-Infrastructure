@@ -10,9 +10,9 @@ import { Logger } from '../utils/logger';
 import { BaseController } from './baseController'
 import { UrlManipulations } from '../utils/urlManipulations'
 import { ArrayManipulations } from '../utils/arrayManipulations'
+import { NextFunction } from 'connect';
 let useragent = require('express-useragent');
 let os = require('os');
-
 
 @controller('/message')
 export class MessageController extends BaseController {
@@ -25,44 +25,38 @@ export class MessageController extends BaseController {
   }
 
   @httpGet('/', TYPES.LoggerMiddleware, TYPES.SecurityMiddleware)
-  public getMessages(request: Request): Promise<Message[]> {
+  public async getMessages(request: Request, next: NextFunction): Promise<Message[]> {
     try {
 
       this.logger.log('Getting messages from DB', 'info');
 
       let filterObj = UrlManipulations.BuildFilterObj(request);
-      let messages = this.messageService.getMessages(filterObj.filters, filterObj.limit, filterObj.skip);
-      return messages.then(allMessages => {
-        if (allMessages.length === 0)
-          return this.ReturnInternalError('Nothing to show');
-        else
-          return new Promise<Message[]>((resolve, reject) => {
-            allMessages = ArrayManipulations.MapObjFromArray(allMessages, 'domain');
-            resolve(allMessages);
-          });
-      }).catch(allMessages => {
-        return new Promise<Message[]>((reject) => {
-          reject(allMessages);
-        });
-      });
-    } catch (err) {
-      return this.ReturnInternalError(err);
+      let messages = await this.messageService.getMessages(filterObj.filters, filterObj.limit, filterObj.skip);
+      if (messages.length === 0)
+      {
+         return await this.ReturnInternalError('Nothing to show');
+      }
+      else {
+        return Promise.resolve(ArrayManipulations.MapObjFromArray(messages, 'domain'));
+      }
+    } catch (e) {
+      let err: Error = e;
+      return this.ReturnInternalError(err.message);
     }
   }
 
-  @httpGet('/getos')
-  public getos(request: Request): Promise<string> {
+  @httpGet('/servermonitor')
+  public async servermonitor(request: Request): Promise<string> {
     try {
-      return new Promise<string>((resolve, reject) => {
-        resolve(os.hostname());
-      });
-    } catch (err) {
-      return this.ReturnInternalError(err);
+      return Promise.resolve(os.hostname());
+    } catch (e) {
+      let err: Error = e;
+      return this.ReturnInternalError(err.message);
     }
   }
 
-  @httpPost('/', TYPES.LoggerMiddleware,TYPES.SecurityMiddleware)
-  public newMessage(request: Request): Promise<Message> {
+  @httpPost('/', TYPES.LoggerMiddleware, TYPES.SecurityMiddleware)
+  public async newMessage(request: Request): Promise<Message> {
     try {
       this.logger.log('Adding Message to DB', 'info');
       let ua = useragent.parse(request.headers['user-agent']);
@@ -70,9 +64,10 @@ export class MessageController extends BaseController {
       content.browser = { "Name": ua.browser, "Version": ua.version };
       content.createdAt = new Date().toISOString();
       content.domain = request.headers["crossfw-referer"]; //this is just for test. we need to take it from 'request.headers.referer'
-      return this.messageService.newMessage(content);
-    } catch (err) {
-      return this.ReturnInternalError(err);
+      return await this.messageService.newMessage(content);
+    } catch (e) {
+      let err: Error = e;
+      return this.ReturnInternalError(err.message);
     }
   }
 }

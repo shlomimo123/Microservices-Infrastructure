@@ -21,13 +21,13 @@ Run the folowing commands:
 There is 2 options to use and run this example, The first one is with docker-compose tool and the second is on docker swarm
 
 for docker-compose use this commands:
-1) `docker build .`
+1) `docker build -t moonshot_web:lastversion .`
 2) `docker-compose -f "docker-compose.yml" down`
 3) `docker-compose -f "docker-compose.yml" up -d --build`
 
 for docker swarm use this commands:
 1) `docker swarm init`
-2) `docker build .`
+2) `docker build -t moonshot_web:lastversion .`
 3) `docker stack rm prod`
 4) `docker stack deploy --compose-file=docker-compose-swarm.yml prod`
 
@@ -39,7 +39,7 @@ HTTP                                                    | How to use example
 ------------------------------------------------------- | --------------------------------------------------------------------------------------------------------
 `POST`                                                  | <b>URL </b>http://localhost:8001/Message</br><b>Body </b>{"firstName":"vvvvvv"}</br><b>Headers</b>crossfw-referer:website.com
 `GET`                                                   |<b>URL </b>http://localhost:8001/Message?domain=website.com&from=2019-05-13T07:16:37.449Z&&until=2019-05-15T07:16:37.449Z&skip=0&limit=0 
-`GET`                                                   |<b>URL </b>http://localhost:8001/Message/getos
+`GET`                                                   |<b>URL </b>http://localhost:8001/Message/servermonitor
 
 
 ## How to scale

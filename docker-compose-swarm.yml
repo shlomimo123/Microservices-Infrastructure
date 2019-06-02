@@ -1,7 +1,7 @@
 version: "3.3"
 services:
   web:
-    image: moonshot_web
+    image: moonshot_web:latest
     depends_on:
     - mongo
     ports:
