@@ -1,0 +1,142 @@
+// db.createCollection("Products")
+
+// db.Products.insertMany([{pname:"Yes",age:15,market:["chaina","israel"]}
+//                       ,{pname:"HOT",age:10,market:["chaina","israel","mexico"]}
+// db.Products.find({},{_id:0})
+
+// db.Products.count({})
+
+// db.Products.count({age:{$lte:15}})
+
+// db.Products.createIndex({pname:"text"})
+
+// db.Products.createIndex({market:"text"})
+// db.Products.find({$text:{$search:"YES"}})
+
+// db.Products.getIndexes()
+// db.Products.dropIndex("pname_text")
+
+// db.Products.createIndex({pname:"text",market:"text"})
+// db.Products.getIndexes()
+// db.Products.find({$text:{$search:"chaina"}})
+
+// db.Products.find({$text:{$search:"yes chaina"}},{score:{$meta:"textScore"}})
+
+// db.Products.distinct("pname")
+
+// db.Products.find({pname:{$in:[/YES/i,"HOT"]}})
+
+// db.Products.updateOne({pname:"Yes"},{$set:{
+//     orders:[
+//         {total:45,time:Date('2019-05-05')},
+//          {total:55,time:Date('2019-05-06')},
+//           {total:65,time:Date('2019-05-07')}
+        
+//     ]
+// }})
+
+//  db.Products.find({pname:"Yes"})
+
+// db.Products.aggregate([
+//     {$match:{orders:{$exists:true}}},
+//     {$unwind: '$orders'}
+// ])
+
+// db.Products.aggregate([
+//     {$match:{orders:{$exists:true}}},
+//     {$unwind: '$orders'},
+//     {$group:{_id:"$pname",total:{$sum:"$orders.total"}}}
+// ])
+
+//  db.Products.find({})
+
+// db.Products.updateOne({pname:"Yes"},{$unset:{
+//     orders:""
+// }})
+
+// db.Products.updateOne({pname:"Yes"},{$set:{
+//     cities:[
+//         {name:"tel-aviv",
+//          orders:[
+//         {total:45,time:Date('2019-05-05')},
+//          {total:55,time:Date('2019-05-06')},
+//           {total:65,time:Date('2019-05-07')}
+        
+//     ]},
+//     {name:"haifa",
+//          orders:[
+//         {total:45,time:Date('2019-05-05')},
+//          {total:55,time:Date('2019-05-06')},
+//           {total:65,time:Date('2019-05-07')}
+        
+//     ]}    
+//     ]
+// }})
+
+// db.Products.updateOne({pname:"HOT"},{$set:{
+//     cities:[
+//         {name:"tel-aviv",
+//          orders:[
+//          {total:55,time:Date('2019-05-06')},
+//           {total:65,time:Date('2019-05-07')}
+        
+//     ]},
+//     {name:"jerusalem",
+//          orders:[
+//         {total:45,time:Date('2019-05-05')},
+//          {total:55,time:Date('2019-05-06')},
+//           {total:65,time:Date('2019-05-07')}
+        
+//     ]}    
+//     ]
+// }})
+
+//  db.Products.find({})
+
+// db.Products.aggregate([
+//     {$match:{cities:{$exists:true}}},
+//     {$unwind: '$cities'},
+//     {$unwind: '$cities.orders'},
+//     {$group:{_id:"$cities.name",totalMoney:{$sum:"$cities.orders.total"}}}
+// ])
+
+//  
+
+
+// db.Products.aggregate([
+//     {$match:{cities:{$exists:true}}},
+//     {$unwind: '$cities'},
+//     {$unwind: '$cities.orders'},
+//     {$group:{_id:"$cities.name",total:{$sum:"$cities.orders.total"}}},
+//     {$project:{name:"$_id",_id:0,totalMoney:"$total"}},
+//     {$addFields:{ttl:120}},
+//     {$sort:{totalMoney:-1}},
+//     {$limit:1}
+// ])
+// db.Products.aggregate({$project:{pname:1,age:1,_id:0}})
+
+
+// db.Products.find({})
+// db.Products.aggregate([
+//     {$match:{cities:{$exists:true}}},
+//     {$unwind: '$cities'}
+//     ,{$sortByCount:"$cities.name"}
+// ])
+
+
+db.Products.find({})
+db.Products.aggregate([
+    {$match:{cities:{$exists:true}}},
+    {$unwind: '$cities'},
+    {$sortByCount:"$cities.name"},
+    {$facet:{
+        "bestCity":[
+            {$sort:{"_id":-1}},
+            {$limit:1}
+            ],
+        "loosingCity":[
+            {$sort:{"_id":1}},
+            {$limit:1}
+            ]
+    }}
+])
